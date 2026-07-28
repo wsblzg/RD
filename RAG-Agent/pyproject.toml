@@ -1,0 +1,24 @@
+[project]
+name = "rag-agent"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "aiohttp==3.8.6",
+    "faiss-cpu==1.7.4",
+    "fastapi==0.104.1",
+    "jinja2==3.1.2",
+    "langchain==0.1.12",
+    "numpy>=1.24.4",
+    "python-multipart==0.0.6",
+    "requests==2.31.0",
+    "uvicorn==0.24.0",
+]
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "httpx<0.28",
+    "pytest>=9.1.1",
+]

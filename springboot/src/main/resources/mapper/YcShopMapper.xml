@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.YcShopMapper">
+
+    <resultMap id="ycShopProductMap" type="com.example.entity.YcShopProduct">
+        <id column="id" property="id"/>
+        <result column="product_code" property="productCode"/>
+        <result column="name" property="name"/>
+        <result column="subtitle" property="subtitle"/>
+        <result column="cover_url" property="coverUrl"/>
+        <result column="detail_content" property="detailContent"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="sold_count" property="soldCount"/>
+        <result column="is_on_shelf" property="isOnShelf"/>
+        <result column="status" property="status"/>
+        <result column="sort_no" property="sortNo"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="updated_by" property="updatedBy"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="deleted_at" property="deletedAt"/>
+    </resultMap>
+
+    <resultMap id="ycShopCartItemMap" type="com.example.entity.YcShopCartItem">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="product_id" property="productId"/>
+        <result column="quantity" property="quantity"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="product_code" property="productCode"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_subtitle" property="productSubtitle"/>
+        <result column="cover_url" property="coverUrl"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="is_on_shelf" property="isOnShelf"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <resultMap id="ycShopOrderMap" type="com.example.entity.YcShopOrder">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="display_name" property="displayName"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="total_quantity" property="totalQuantity"/>
+        <result column="status" property="status"/>
+        <result column="receiver_name" property="receiverName"/>
+        <result column="receiver_phone" property="receiverPhone"/>
+        <result column="receiver_address" property="receiverAddress"/>
+        <result column="buyer_remark" property="buyerRemark"/>
+        <result column="payment_marked_at" property="paymentMarkedAt"/>
+        <result column="payment_reviewed_at" property="paymentReviewedAt"/>
+        <result column="payment_review_by" property="paymentReviewBy"/>
+        <result column="payment_review_by_name" property="paymentReviewByName"/>
+        <result column="payment_review_remark" property="paymentReviewRemark"/>
+        <result column="shipped_at" property="shippedAt"/>
+        <result column="shipped_by" property="shippedBy"/>
+        <result column="shipped_by_name" property="shippedByName"/>
+        <result column="shipping_company" property="shippingCompany"/>
+        <result column="tracking_no" property="trackingNo"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <resultMap id="ycShopOrderItemMap" type="com.example.entity.YcShopOrderItem">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_code" property="productCode"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_subtitle" property="productSubtitle"/>
+        <result column="product_cover_url" property="productCoverUrl"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="quantity" property="quantity"/>
+        <result column="subtotal_amount" property="subtotalAmount"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <sql id="onShelfProductFilterSql">
+        FROM yc_shop_product p
+        WHERE p.deleted_at IS NULL
+          AND p.status = 1
+          AND p.is_on_shelf = 1
+        <if test="keyword != null and keyword != ''">
+            AND (
+                p.name LIKE CONCAT('%', #{keyword}, '%')
+                OR p.product_code LIKE CONCAT('%', #{keyword}, '%')
+                OR p.subtitle LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+        <if test="productType != null and productType == 'model'">
+            AND (
+                LOWER(COALESCE(p.product_code, '')) LIKE '%glb%'
+                OR LOWER(COALESCE(p.product_code, '')) LIKE '%3d%'
+                OR LOWER(COALESCE(p.name, '')) LIKE '%glb%'
+                OR LOWER(COALESCE(p.name, '')) LIKE '%3d%'
+                OR LOWER(COALESCE(p.subtitle, '')) LIKE '%glb%'
+                OR LOWER(COALESCE(p.subtitle, '')) LIKE '%3d%'
+                OR COALESCE(p.subtitle, '') LIKE '%模型%'
+                OR COALESCE(p.name, '') LIKE '%模型%'
+                OR COALESCE(p.detail_content, '') LIKE '%modelUrl:%'
+                OR COALESCE(p.detail_content, '') LIKE '%modelUrl：%'
+                OR COALESCE(p.detail_content, '') LIKE '%fullModelUrl:%'
+                OR COALESCE(p.detail_content, '') LIKE '%fullModelUrl：%'
+                OR COALESCE(p.detail_content, '') LIKE '%glbUrl:%'
+                OR COALESCE(p.detail_content, '') LIKE '%glbUrl：%'
+                OR COALESCE(p.detail_content, '') LIKE '%模型地址:%'
+                OR COALESCE(p.detail_content, '') LIKE '%模型地址：%'
+            )
+        </if>
+        <if test="productType != null and productType == 'physical'">
+            AND NOT (
+                LOWER(COALESCE(p.product_code, '')) LIKE '%glb%'
+                OR LOWER(COALESCE(p.product_code, '')) LIKE '%3d%'
+                OR LOWER(COALESCE(p.name, '')) LIKE '%glb%'
+                OR LOWER(COALESCE(p.name, '')) LIKE '%3d%'
+                OR LOWER(COALESCE(p.subtitle, '')) LIKE '%glb%'
+                OR LOWER(COALESCE(p.subtitle, '')) LIKE '%3d%'
+                OR COALESCE(p.subtitle, '') LIKE '%模型%'
+                OR COALESCE(p.name, '') LIKE '%模型%'
+                OR COALESCE(p.detail_content, '') LIKE '%modelUrl:%'
+                OR COALESCE(p.detail_content, '') LIKE '%modelUrl：%'
+                OR COALESCE(p.detail_content, '') LIKE '%fullModelUrl:%'
+                OR COALESCE(p.detail_content, '') LIKE '%fullModelUrl：%'
+                OR COALESCE(p.detail_content, '') LIKE '%glbUrl:%'
+                OR COALESCE(p.detail_content, '') LIKE '%glbUrl：%'
+                OR COALESCE(p.detail_content, '') LIKE '%模型地址:%'
+                OR COALESCE(p.detail_content, '') LIKE '%模型地址：%'
+            )
+        </if>
+    </sql>
+
+    <select id="countOnShelfProducts" resultType="int">
+        SELECT COUNT(1)
+        <include refid="onShelfProductFilterSql"/>
+    </select>
+
+    <select id="selectOnShelfProducts" resultMap="ycShopProductMap">
+        SELECT
+            p.id,
+            p.product_code,
+            p.name,
+            p.subtitle,
+            p.cover_url,
+            p.detail_content,
+            p.price,
+            p.stock,
+            p.sold_count,
+            p.is_on_shelf,
+            p.status,
+            p.sort_no,
+            p.created_by,
+            p.updated_by,
+            p.created_at,
+            p.updated_at,
+            p.deleted_at
+        <include refid="onShelfProductFilterSql"/>
+        ORDER BY p.sort_no DESC, p.updated_at DESC, p.id DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectOnShelfProductById" resultMap="ycShopProductMap">
+        SELECT
+            p.id,
+            p.product_code,
+            p.name,
+            p.subtitle,
+            p.cover_url,
+            p.detail_content,
+            p.price,
+            p.stock,
+            p.sold_count,
+            p.is_on_shelf,
+            p.status,
+            p.sort_no,
+            p.created_by,
+            p.updated_by,
+            p.created_at,
+            p.updated_at,
+            p.deleted_at
+        FROM yc_shop_product p
+        WHERE p.id = #{id}
+          AND p.deleted_at IS NULL
+          AND p.status = 1
+          AND p.is_on_shelf = 1
+        LIMIT 1
+    </select>
+
+    <select id="selectProductById" resultMap="ycShopProductMap">
+        SELECT
+            p.id,
+            p.product_code,
+            p.name,
+            p.subtitle,
+            p.cover_url,
+            p.detail_content,
+            p.price,
+            p.stock,
+            p.sold_count,
+            p.is_on_shelf,
+            p.status,
+            p.sort_no,
+            p.created_by,
+            p.updated_by,
+            p.created_at,
+            p.updated_at,
+            p.deleted_at
+        FROM yc_shop_product p
+        WHERE p.id = #{id}
+          AND p.deleted_at IS NULL
+        LIMIT 1
+    </select>
+
+    <select id="selectProductByCode" resultMap="ycShopProductMap">
+        SELECT
+            p.id,
+            p.product_code,
+            p.name,
+            p.subtitle,
+            p.cover_url,
+            p.detail_content,
+            p.price,
+            p.stock,
+            p.sold_count,
+            p.is_on_shelf,
+            p.status,
+            p.sort_no,
+            p.created_by,
+            p.updated_by,
+            p.created_at,
+            p.updated_at,
+            p.deleted_at
+        FROM yc_shop_product p
+        WHERE p.product_code = #{productCode}
+          AND p.deleted_at IS NULL
+        LIMIT 1
+    </select>
+
+    <select id="adminListProducts" resultMap="ycShopProductMap">
+        SELECT
+            p.id,
+            p.product_code,
+            p.name,
+            p.subtitle,
+            p.cover_url,
+            p.detail_content,
+            p.price,
+            p.stock,
+            p.sold_count,
+            p.is_on_shelf,
+            p.status,
+            p.sort_no,
+            p.created_by,
+            p.updated_by,
+            p.created_at,
+            p.updated_at,
+            p.deleted_at
+        FROM yc_shop_product p
+        WHERE p.deleted_at IS NULL
+        <if test="keyword != null and keyword != ''">
+            AND (
+                p.name LIKE CONCAT('%', #{keyword}, '%')
+                OR p.product_code LIKE CONCAT('%', #{keyword}, '%')
+                OR p.subtitle LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+        <if test="status != null">
+            AND p.status = #{status}
+        </if>
+        <if test="isOnShelf != null">
+            AND p.is_on_shelf = #{isOnShelf}
+        </if>
+        ORDER BY p.sort_no DESC, p.updated_at DESC, p.id DESC
+    </select>
+
+    <insert id="insertProduct" parameterType="com.example.entity.YcShopProduct" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO yc_shop_product
+        (product_code, name, subtitle, cover_url, detail_content, price, stock, sold_count, is_on_shelf, status, sort_no, created_by, updated_by)
+        VALUES
+        (#{productCode}, #{name}, #{subtitle}, #{coverUrl}, #{detailContent}, #{price}, #{stock}, 0, #{isOnShelf}, #{status}, #{sortNo}, #{createdBy}, #{updatedBy})
+    </insert>
+
+    <update id="updateProduct" parameterType="com.example.entity.YcShopProduct">
+        UPDATE yc_shop_product
+        SET
+            product_code = #{productCode},
+            name = #{name},
+            subtitle = #{subtitle},
+            cover_url = #{coverUrl},
+            detail_content = #{detailContent},
+            price = #{price},
+            stock = #{stock},
+            is_on_shelf = #{isOnShelf},
+            status = #{status},
+            sort_no = #{sortNo},
+            updated_by = #{updatedBy},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+    </update>
+
+    <update id="updateProductShelf">
+        UPDATE yc_shop_product
+        SET is_on_shelf = #{isOnShelf},
+            updated_by = #{updatedBy},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+    </update>
+
+    <update id="softDeleteProduct">
+        UPDATE yc_shop_product
+        SET status = 0,
+            is_on_shelf = 0,
+            updated_by = #{updatedBy},
+            updated_at = NOW(),
+            deleted_at = NOW()
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+    </update>
+
+    <update id="decrementProductStock">
+        UPDATE yc_shop_product
+        SET stock = stock - #{quantity},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+          AND status = 1
+          AND is_on_shelf = 1
+          AND stock >= #{quantity}
+    </update>
+
+    <update id="incrementProductStock">
+        UPDATE yc_shop_product
+        SET stock = stock + #{quantity},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+    </update>
+
+    <update id="incrementProductSoldCount">
+        UPDATE yc_shop_product
+        SET sold_count = sold_count + #{quantity},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+    </update>
+
+    <select id="selectCartItemByUserAndProduct" resultMap="ycShopCartItemMap">
+        SELECT
+            c.id,
+            c.user_id,
+            c.product_id,
+            c.quantity,
+            c.created_at,
+            c.updated_at,
+            p.product_code,
+            p.name AS product_name,
+            p.subtitle AS product_subtitle,
+            p.cover_url,
+            p.price,
+            p.stock,
+            p.is_on_shelf,
+            p.status
+        FROM yc_shop_cart_item c
+        INNER JOIN yc_shop_product p ON p.id = c.product_id
+        WHERE c.user_id = #{userId}
+          AND c.product_id = #{productId}
+        LIMIT 1
+    </select>
+
+    <insert id="insertCartItem">
+        INSERT INTO yc_shop_cart_item (user_id, product_id, quantity)
+        VALUES (#{userId}, #{productId}, #{quantity})
+    </insert>
+
+    <update id="updateCartItemQuantity">
+        UPDATE yc_shop_cart_item
+        SET quantity = #{quantity},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteCartItem">
+        DELETE FROM yc_shop_cart_item
+        WHERE id = #{id}
+          AND user_id = #{userId}
+    </delete>
+
+    <select id="selectCartItemById" resultMap="ycShopCartItemMap">
+        SELECT
+            c.id,
+            c.user_id,
+            c.product_id,
+            c.quantity,
+            c.created_at,
+            c.updated_at,
+            p.product_code,
+            p.name AS product_name,
+            p.subtitle AS product_subtitle,
+            p.cover_url,
+            p.price,
+            p.stock,
+            p.is_on_shelf,
+            p.status
+        FROM yc_shop_cart_item c
+        INNER JOIN yc_shop_product p ON p.id = c.product_id
+        WHERE c.id = #{id}
+          AND c.user_id = #{userId}
+        LIMIT 1
+    </select>
+
+    <select id="selectUserCartItems" resultMap="ycShopCartItemMap">
+        SELECT
+            c.id,
+            c.user_id,
+            c.product_id,
+            c.quantity,
+            c.created_at,
+            c.updated_at,
+            p.product_code,
+            p.name AS product_name,
+            p.subtitle AS product_subtitle,
+            p.cover_url,
+            p.price,
+            p.stock,
+            p.is_on_shelf,
+            p.status
+        FROM yc_shop_cart_item c
+        INNER JOIN yc_shop_product p ON p.id = c.product_id
+        WHERE c.user_id = #{userId}
+        ORDER BY c.updated_at DESC, c.id DESC
+    </select>
+
+    <select id="selectCartItemsByIds" resultMap="ycShopCartItemMap">
+        SELECT
+            c.id,
+            c.user_id,
+            c.product_id,
+            c.quantity,
+            c.created_at,
+            c.updated_at,
+            p.product_code,
+            p.name AS product_name,
+            p.subtitle AS product_subtitle,
+            p.cover_url,
+            p.price,
+            p.stock,
+            p.is_on_shelf,
+            p.status
+        FROM yc_shop_cart_item c
+        INNER JOIN yc_shop_product p ON p.id = c.product_id
+        WHERE c.user_id = #{userId}
+          AND c.id IN
+          <foreach collection="cartItemIds" item="id" open="(" separator="," close=")">
+              #{id}
+          </foreach>
+        ORDER BY c.updated_at DESC, c.id DESC
+    </select>
+
+    <delete id="deleteCartItems">
+        DELETE FROM yc_shop_cart_item
+        WHERE user_id = #{userId}
+          AND id IN
+          <foreach collection="cartItemIds" item="id" open="(" separator="," close=")">
+              #{id}
+          </foreach>
+    </delete>
+
+    <insert id="insertOrder" parameterType="com.example.entity.YcShopOrder" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO yc_shop_order
+        (order_no, user_id, total_amount, total_quantity, status, receiver_name, receiver_phone, receiver_address, buyer_remark)
+        VALUES
+        (#{orderNo}, #{userId}, #{totalAmount}, #{totalQuantity}, #{status}, #{receiverName}, #{receiverPhone}, #{receiverAddress}, #{buyerRemark})
+    </insert>
+
+    <insert id="insertOrderItem" parameterType="com.example.entity.YcShopOrderItem" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO yc_shop_order_item
+        (order_id, product_id, product_code, product_name, product_subtitle, product_cover_url, unit_price, quantity, subtotal_amount)
+        VALUES
+        (#{orderId}, #{productId}, #{productCode}, #{productName}, #{productSubtitle}, #{productCoverUrl}, #{unitPrice}, #{quantity}, #{subtotalAmount})
+    </insert>
+
+    <select id="countUserOrders" resultType="int">
+        SELECT COUNT(1)
+        FROM yc_shop_order o
+        WHERE o.user_id = #{userId}
+    </select>
+
+    <select id="selectUserOrders" resultMap="ycShopOrderMap">
+        SELECT
+            o.id,
+            o.order_no,
+            o.user_id,
+            u.username,
+            u.display_name,
+            o.total_amount,
+            o.total_quantity,
+            o.status,
+            o.receiver_name,
+            o.receiver_phone,
+            o.receiver_address,
+            o.buyer_remark,
+            o.payment_marked_at,
+            o.payment_reviewed_at,
+            o.payment_review_by,
+            rv.display_name AS payment_review_by_name,
+            o.payment_review_remark,
+            o.shipped_at,
+            o.shipped_by,
+            sv.display_name AS shipped_by_name,
+            o.shipping_company,
+            o.tracking_no,
+            o.created_at,
+            o.updated_at
+        FROM yc_shop_order o
+        LEFT JOIN yc_user_account u ON u.id = o.user_id
+        LEFT JOIN yc_user_account rv ON rv.id = o.payment_review_by
+        LEFT JOIN yc_user_account sv ON sv.id = o.shipped_by
+        WHERE o.user_id = #{userId}
+        ORDER BY o.created_at DESC, o.id DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectUserOrderById" resultMap="ycShopOrderMap">
+        SELECT
+            o.id,
+            o.order_no,
+            o.user_id,
+            u.username,
+            u.display_name,
+            o.total_amount,
+            o.total_quantity,
+            o.status,
+            o.receiver_name,
+            o.receiver_phone,
+            o.receiver_address,
+            o.buyer_remark,
+            o.payment_marked_at,
+            o.payment_reviewed_at,
+            o.payment_review_by,
+            rv.display_name AS payment_review_by_name,
+            o.payment_review_remark,
+            o.shipped_at,
+            o.shipped_by,
+            sv.display_name AS shipped_by_name,
+            o.shipping_company,
+            o.tracking_no,
+            o.created_at,
+            o.updated_at
+        FROM yc_shop_order o
+        LEFT JOIN yc_user_account u ON u.id = o.user_id
+        LEFT JOIN yc_user_account rv ON rv.id = o.payment_review_by
+        LEFT JOIN yc_user_account sv ON sv.id = o.shipped_by
+        WHERE o.id = #{id}
+          AND o.user_id = #{userId}
+        LIMIT 1
+    </select>
+
+    <select id="countAdminOrders" resultType="int">
+        SELECT COUNT(1)
+        FROM yc_shop_order o
+        LEFT JOIN yc_user_account u ON u.id = o.user_id
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND (
+                o.order_no LIKE CONCAT('%', #{keyword}, '%')
+                OR o.receiver_name LIKE CONCAT('%', #{keyword}, '%')
+                OR o.receiver_phone LIKE CONCAT('%', #{keyword}, '%')
+                OR u.username LIKE CONCAT('%', #{keyword}, '%')
+                OR u.display_name LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+        <if test="status != null and status != ''">
+            AND o.status = #{status}
+        </if>
+    </select>
+
+    <select id="selectAdminOrders" resultMap="ycShopOrderMap">
+        SELECT
+            o.id,
+            o.order_no,
+            o.user_id,
+            u.username,
+            u.display_name,
+            o.total_amount,
+            o.total_quantity,
+            o.status,
+            o.receiver_name,
+            o.receiver_phone,
+            o.receiver_address,
+            o.buyer_remark,
+            o.payment_marked_at,
+            o.payment_reviewed_at,
+            o.payment_review_by,
+            rv.display_name AS payment_review_by_name,
+            o.payment_review_remark,
+            o.shipped_at,
+            o.shipped_by,
+            sv.display_name AS shipped_by_name,
+            o.shipping_company,
+            o.tracking_no,
+            o.created_at,
+            o.updated_at
+        FROM yc_shop_order o
+        LEFT JOIN yc_user_account u ON u.id = o.user_id
+        LEFT JOIN yc_user_account rv ON rv.id = o.payment_review_by
+        LEFT JOIN yc_user_account sv ON sv.id = o.shipped_by
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND (
+                o.order_no LIKE CONCAT('%', #{keyword}, '%')
+                OR o.receiver_name LIKE CONCAT('%', #{keyword}, '%')
+                OR o.receiver_phone LIKE CONCAT('%', #{keyword}, '%')
+                OR u.username LIKE CONCAT('%', #{keyword}, '%')
+                OR u.display_name LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+        <if test="status != null and status != ''">
+            AND o.status = #{status}
+        </if>
+        ORDER BY o.created_at DESC, o.id DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectOrderById" resultMap="ycShopOrderMap">
+        SELECT
+            o.id,
+            o.order_no,
+            o.user_id,
+            u.username,
+            u.display_name,
+            o.total_amount,
+            o.total_quantity,
+            o.status,
+            o.receiver_name,
+            o.receiver_phone,
+            o.receiver_address,
+            o.buyer_remark,
+            o.payment_marked_at,
+            o.payment_reviewed_at,
+            o.payment_review_by,
+            rv.display_name AS payment_review_by_name,
+            o.payment_review_remark,
+            o.shipped_at,
+            o.shipped_by,
+            sv.display_name AS shipped_by_name,
+            o.shipping_company,
+            o.tracking_no,
+            o.created_at,
+            o.updated_at
+        FROM yc_shop_order o
+        LEFT JOIN yc_user_account u ON u.id = o.user_id
+        LEFT JOIN yc_user_account rv ON rv.id = o.payment_review_by
+        LEFT JOIN yc_user_account sv ON sv.id = o.shipped_by
+        WHERE o.id = #{id}
+        LIMIT 1
+    </select>
+
+    <select id="selectOrderItems" resultMap="ycShopOrderItemMap">
+        SELECT
+            oi.id,
+            oi.order_id,
+            oi.product_id,
+            oi.product_code,
+            oi.product_name,
+            oi.product_subtitle,
+            oi.product_cover_url,
+            oi.unit_price,
+            oi.quantity,
+            oi.subtotal_amount,
+            oi.created_at
+        FROM yc_shop_order_item oi
+        WHERE oi.order_id = #{orderId}
+        ORDER BY oi.id ASC
+    </select>
+
+    <select id="selectPurchasedProducts" resultMap="ycShopProductMap">
+        SELECT DISTINCT
+            p.id,
+            p.product_code,
+            p.name,
+            p.subtitle,
+            p.cover_url,
+            p.detail_content,
+            p.price,
+            p.stock,
+            p.sold_count,
+            p.is_on_shelf,
+            p.status,
+            p.sort_no,
+            p.created_by,
+            p.updated_by,
+            p.created_at,
+            p.updated_at,
+            p.deleted_at
+        FROM yc_shop_order o
+        INNER JOIN yc_shop_order_item oi ON oi.order_id = o.id
+        INNER JOIN yc_shop_product p ON p.id = oi.product_id
+        WHERE o.user_id = #{userId}
+          AND o.status IN
+          <foreach collection="statuses" item="status" open="(" separator="," close=")">
+              #{status}
+          </foreach>
+          AND p.deleted_at IS NULL
+        ORDER BY p.updated_at DESC, p.id DESC
+    </select>
+
+    <select id="countPurchasedProduct" resultType="int">
+        SELECT COUNT(1)
+        FROM yc_shop_order o
+        INNER JOIN yc_shop_order_item oi ON oi.order_id = o.id
+        WHERE o.user_id = #{userId}
+          AND oi.product_id = #{productId}
+          AND o.status IN
+          <foreach collection="statuses" item="status" open="(" separator="," close=")">
+              #{status}
+          </foreach>
+    </select>
+
+    <select id="selectExpiredPendingOrders" resultMap="ycShopOrderMap">
+        SELECT
+            o.id,
+            o.order_no,
+            o.user_id,
+            u.username,
+            u.display_name,
+            o.total_amount,
+            o.total_quantity,
+            o.status,
+            o.receiver_name,
+            o.receiver_phone,
+            o.receiver_address,
+            o.buyer_remark,
+            o.payment_marked_at,
+            o.payment_reviewed_at,
+            o.payment_review_by,
+            rv.display_name AS payment_review_by_name,
+            o.payment_review_remark,
+            o.shipped_at,
+            o.shipped_by,
+            sv.display_name AS shipped_by_name,
+            o.shipping_company,
+            o.tracking_no,
+            o.created_at,
+            o.updated_at
+        FROM yc_shop_order o
+        LEFT JOIN yc_user_account u ON u.id = o.user_id
+        LEFT JOIN yc_user_account rv ON rv.id = o.payment_review_by
+        LEFT JOIN yc_user_account sv ON sv.id = o.shipped_by
+        WHERE o.status = 'PENDING_PAYMENT'
+          AND o.created_at &lt;= #{cutoff}
+        ORDER BY o.created_at ASC, o.id ASC
+        LIMIT #{limit}
+    </select>
+
+    <update id="markOrderPaid">
+        UPDATE yc_shop_order
+        SET status = 'PENDING_REVIEW',
+            payment_marked_at = #{paymentMarkedAt},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND user_id = #{userId}
+          AND status = 'PENDING_PAYMENT'
+    </update>
+
+    <update id="cancelUserOrder">
+        UPDATE yc_shop_order
+        SET status = #{toStatus},
+            payment_review_remark = #{remark},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND user_id = #{userId}
+          AND status = #{fromStatus}
+    </update>
+
+    <update id="cancelOrderByStatus">
+        UPDATE yc_shop_order
+        SET status = #{toStatus},
+            payment_review_remark = #{remark},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND status = #{fromStatus}
+    </update>
+
+    <update id="reviewOrderPayment">
+        UPDATE yc_shop_order
+        SET status = #{toStatus},
+            payment_reviewed_at = #{paymentReviewedAt},
+            payment_review_by = #{paymentReviewBy},
+            payment_review_remark = #{paymentReviewRemark},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND status = #{fromStatus}
+    </update>
+
+    <update id="markOrderShipped">
+        UPDATE yc_shop_order
+        SET status = #{toStatus},
+            shipped_at = #{shippedAt},
+            shipped_by = #{shippedBy},
+            shipping_company = #{shippingCompany},
+            tracking_no = #{trackingNo},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND status = #{fromStatus}
+    </update>
+
+</mapper>

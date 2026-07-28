@@ -1,0 +1,1056 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.YcCollectibleMapper">
+
+    <resultMap id="ycUserMap" type="com.example.entity.YcUserAccount">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password_hash" property="passwordHash"/>
+        <result column="display_name" property="displayName"/>
+        <result column="role" property="role"/>
+        <result column="status" property="status"/>
+        <result column="points_balance" property="pointsBalance"/>
+        <result column="points_total_recharged" property="pointsTotalRecharged"/>
+        <result column="points_total_spent" property="pointsTotalSpent"/>
+        <result column="points_is_unlimited" property="pointsIsUnlimited"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <resultMap id="ycSeriesMap" type="com.example.entity.YcCollectionSeries">
+        <id column="id" property="id"/>
+        <result column="series_code" property="seriesCode"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="sort_no" property="sortNo"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="item_count" property="itemCount"/>
+    </resultMap>
+
+    <resultMap id="ycItemMap" type="com.example.entity.YcCollectionItem">
+        <id column="id" property="id"/>
+        <result column="item_code" property="itemCode"/>
+        <result column="series_id" property="seriesId"/>
+        <result column="name" property="name"/>
+        <result column="rarity_level" property="rarityLevel"/>
+        <result column="cover_url" property="coverUrl"/>
+        <result column="model_url" property="modelUrl"/>
+        <result column="model_format" property="modelFormat"/>
+        <result column="description" property="description"/>
+        <result column="is_on_shelf" property="isOnShelf"/>
+        <result column="status" property="status"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="updated_by" property="updatedBy"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="deleted_at" property="deletedAt"/>
+        <result column="series_name" property="seriesName"/>
+        <result column="series_code" property="seriesCode"/>
+        <result column="collected" property="collected"/>
+        <result column="acquired_at" property="acquiredAt"/>
+    </resultMap>
+
+    <resultMap id="ycRedeemMap" type="com.example.entity.YcRedeemCode">
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="item_id" property="itemId"/>
+        <result column="item_name" property="itemName"/>
+        <result column="issued_channel" property="issuedChannel"/>
+        <result column="expire_at" property="expireAt"/>
+        <result column="status" property="status"/>
+        <result column="used_by_user_id" property="usedByUserId"/>
+        <result column="used_by_name" property="usedByName"/>
+        <result column="used_at" property="usedAt"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <resultMap id="ycCommunityPostMap" type="com.example.entity.YcCommunityPost">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="ai_work_id" property="aiWorkId"/>
+        <result column="author_name" property="authorName"/>
+        <result column="title" property="title"/>
+        <result column="content_html" property="contentHtml"/>
+        <result column="summary" property="summary"/>
+        <result column="category" property="category"/>
+        <result column="tags" property="tags"/>
+        <result column="cover_image" property="coverImage"/>
+        <result column="status" property="status"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="comment_count" property="commentCount"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <resultMap id="ycAiModelWorkMap" type="com.example.entity.YcAiModelWork">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="task_id" property="taskId"/>
+        <result column="author_name" property="authorName"/>
+        <result column="work_code" property="workCode"/>
+        <result column="title" property="title"/>
+        <result column="prompt" property="prompt"/>
+        <result column="style" property="style"/>
+        <result column="vessel" property="vessel"/>
+        <result column="cover_url" property="coverUrl"/>
+        <result column="model_url" property="modelUrl"/>
+        <result column="model_format" property="modelFormat"/>
+        <result column="oss_url" property="ossUrl"/>
+        <result column="generation_status" property="generationStatus"/>
+        <result column="storage_status" property="storageStatus"/>
+        <result column="generated_at" property="generatedAt"/>
+        <result column="expires_at" property="expiresAt"/>
+        <result column="persist_started_at" property="persistStartedAt"/>
+        <result column="persisted_at" property="persistedAt"/>
+        <result column="generation_points_cost" property="generationPointsCost"/>
+        <result column="persist_points_cost" property="persistPointsCost"/>
+        <result column="generation_charge_status" property="generationChargeStatus"/>
+        <result column="persist_charge_status" property="persistChargeStatus"/>
+        <result column="model_size_bytes" property="modelSizeBytes"/>
+        <result column="last_error" property="lastError"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <resultMap id="ycKilnHotspotConfigMap" type="com.example.entity.YcKilnHotspotConfig">
+        <id column="id" property="id"/>
+        <result column="hotspot_code" property="hotspotCode"/>
+        <result column="name" property="name"/>
+        <result column="short_label" property="shortLabel"/>
+        <result column="position" property="position"/>
+        <result column="normal" property="normal"/>
+        <result column="focus_orbit" property="focusOrbit"/>
+        <result column="focus_target" property="focusTarget"/>
+        <result column="summary" property="summary"/>
+        <result column="points_json" property="pointsJson"/>
+        <result column="temperature_curve_json" property="temperatureCurveJson"/>
+        <result column="sort_no" property="sortNo"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <resultMap id="ycKilnTimelineStepConfigMap" type="com.example.entity.YcKilnTimelineStepConfig">
+        <id column="id" property="id"/>
+        <result column="step_code" property="stepCode"/>
+        <result column="title" property="title"/>
+        <result column="summary" property="summary"/>
+        <result column="temperature" property="temperature"/>
+        <result column="hotspot_code" property="hotspotCode"/>
+        <result column="view_key" property="viewKey"/>
+        <result column="narration" property="narration"/>
+        <result column="duration_ms" property="durationMs"/>
+        <result column="sort_no" property="sortNo"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="selectUserByUsername" resultMap="ycUserMap">
+        SELECT id, username, password_hash, display_name, role, status,
+               points_balance, points_total_recharged, points_total_spent, points_is_unlimited,
+               created_at, updated_at
+        FROM yc_user_account
+        WHERE username = #{username}
+        LIMIT 1
+    </select>
+
+    <select id="selectUserById" resultMap="ycUserMap">
+        SELECT id, username, password_hash, display_name, role, status,
+               points_balance, points_total_recharged, points_total_spent, points_is_unlimited,
+               created_at, updated_at
+        FROM yc_user_account
+        WHERE id = #{id}
+        LIMIT 1
+    </select>
+
+    <insert id="insertUserAccount" parameterType="com.example.entity.YcUserAccount" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO yc_user_account (username, password_hash, display_name, role, status)
+        VALUES (#{username}, #{passwordHash}, #{displayName}, #{role}, #{status})
+    </insert>
+
+    <select id="selectEnabledSeries" resultMap="ycSeriesMap">
+        SELECT
+            s.id,
+            s.series_code,
+            s.name,
+            s.description,
+            s.status,
+            s.sort_no,
+            s.created_at,
+            s.updated_at,
+            (
+                SELECT COUNT(1)
+                FROM yc_collection_item i
+                WHERE i.series_id = s.id
+                  AND i.status = 1
+                  AND i.deleted_at IS NULL
+            ) AS item_count
+        FROM yc_collection_series s
+        WHERE s.status = 1
+        ORDER BY s.sort_no DESC, s.id DESC
+    </select>
+
+    <select id="selectSeriesById" resultMap="ycSeriesMap">
+        SELECT
+            s.id,
+            s.series_code,
+            s.name,
+            s.description,
+            s.status,
+            s.sort_no,
+            s.created_at,
+            s.updated_at
+        FROM yc_collection_series s
+        WHERE s.id = #{id}
+        LIMIT 1
+    </select>
+
+    <sql id="itemFilterSql">
+        FROM yc_collection_item i
+        LEFT JOIN yc_collection_series s ON s.id = i.series_id
+        WHERE i.status = 1
+          AND i.deleted_at IS NULL
+          AND i.is_on_shelf = 1
+        <if test="seriesId != null">
+            AND i.series_id = #{seriesId}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (
+                i.name LIKE CONCAT('%', #{keyword}, '%')
+                OR i.item_code LIKE CONCAT('%', #{keyword}, '%')
+                OR s.name LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+    </sql>
+
+    <select id="countOnShelfItems" resultType="int">
+        SELECT COUNT(1)
+        <include refid="itemFilterSql"/>
+    </select>
+
+    <select id="selectOnShelfItems" resultMap="ycItemMap">
+        SELECT
+            i.id,
+            i.item_code,
+            i.series_id,
+            i.name,
+            i.rarity_level,
+            i.cover_url,
+            i.model_url,
+            i.model_format,
+            i.description,
+            i.is_on_shelf,
+            i.status,
+            i.created_by,
+            i.updated_by,
+            i.created_at,
+            i.updated_at,
+            i.deleted_at,
+            s.name AS series_name,
+            s.series_code AS series_code,
+            CASE WHEN uc.id IS NULL THEN 0 ELSE 1 END AS collected,
+            uc.acquired_at
+        FROM yc_collection_item i
+        LEFT JOIN yc_collection_series s ON s.id = i.series_id
+        LEFT JOIN yc_user_collection uc
+               ON uc.item_id = i.id
+              AND uc.user_id = #{userId}
+        WHERE i.status = 1
+          AND i.deleted_at IS NULL
+          AND i.is_on_shelf = 1
+        <if test="seriesId != null">
+            AND i.series_id = #{seriesId}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (
+                i.name LIKE CONCAT('%', #{keyword}, '%')
+                OR i.item_code LIKE CONCAT('%', #{keyword}, '%')
+                OR s.name LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+        ORDER BY i.rarity_level DESC, i.created_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectOnShelfItemDetail" resultMap="ycItemMap">
+        SELECT
+            i.id,
+            i.item_code,
+            i.series_id,
+            i.name,
+            i.rarity_level,
+            i.cover_url,
+            i.model_url,
+            i.model_format,
+            i.description,
+            i.is_on_shelf,
+            i.status,
+            i.created_by,
+            i.updated_by,
+            i.created_at,
+            i.updated_at,
+            i.deleted_at,
+            s.name AS series_name,
+            s.series_code AS series_code,
+            CASE WHEN uc.id IS NULL THEN 0 ELSE 1 END AS collected,
+            uc.acquired_at
+        FROM yc_collection_item i
+        LEFT JOIN yc_collection_series s ON s.id = i.series_id
+        LEFT JOIN yc_user_collection uc
+               ON uc.item_id = i.id
+              AND uc.user_id = #{userId}
+        WHERE i.id = #{id}
+          AND i.status = 1
+          AND i.deleted_at IS NULL
+          AND i.is_on_shelf = 1
+        LIMIT 1
+    </select>
+
+    <select id="selectItemById" resultMap="ycItemMap">
+        SELECT
+            i.id,
+            i.item_code,
+            i.series_id,
+            i.name,
+            i.rarity_level,
+            i.cover_url,
+            i.model_url,
+            i.model_format,
+            i.description,
+            i.is_on_shelf,
+            i.status,
+            i.created_by,
+            i.updated_by,
+            i.created_at,
+            i.updated_at,
+            i.deleted_at,
+            s.name AS series_name,
+            s.series_code AS series_code
+        FROM yc_collection_item i
+        LEFT JOIN yc_collection_series s ON s.id = i.series_id
+        WHERE i.id = #{id}
+          AND i.deleted_at IS NULL
+        LIMIT 1
+    </select>
+
+    <select id="countUserOwnedItem" resultType="int">
+        SELECT COUNT(1)
+        FROM yc_user_collection
+        WHERE user_id = #{userId}
+          AND item_id = #{itemId}
+    </select>
+
+    <insert id="insertUserCollection">
+        INSERT INTO yc_user_collection (user_id, item_id, acquire_type, acquire_source, redeem_code)
+        VALUES (#{userId}, #{itemId}, #{acquireType}, #{acquireSource}, #{redeemCode})
+    </insert>
+
+    <delete id="deleteFavoriteCollection">
+        DELETE FROM yc_user_collection
+        WHERE user_id = #{userId}
+          AND item_id = #{itemId}
+          AND acquire_type = 'favorite'
+    </delete>
+
+    <select id="selectUserCollections" resultMap="ycItemMap">
+        SELECT
+            i.id,
+            i.item_code,
+            i.series_id,
+            i.name,
+            i.rarity_level,
+            i.cover_url,
+            i.model_url,
+            i.model_format,
+            i.description,
+            i.is_on_shelf,
+            i.status,
+            i.created_by,
+            i.updated_by,
+            i.created_at,
+            i.updated_at,
+            i.deleted_at,
+            s.name AS series_name,
+            s.series_code AS series_code,
+            1 AS collected,
+            uc.acquired_at
+        FROM yc_user_collection uc
+        INNER JOIN yc_collection_item i ON i.id = uc.item_id
+        LEFT JOIN yc_collection_series s ON s.id = i.series_id
+        WHERE uc.user_id = #{userId}
+          AND i.status = 1
+          AND i.deleted_at IS NULL
+        ORDER BY uc.acquired_at DESC, uc.id DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countUserCollections" resultType="int">
+        SELECT COUNT(1)
+        FROM yc_user_collection uc
+        INNER JOIN yc_collection_item i ON i.id = uc.item_id
+        WHERE uc.user_id = #{userId}
+          AND i.status = 1
+          AND i.deleted_at IS NULL
+    </select>
+
+    <select id="selectRedeemCodeForUpdate" resultMap="ycRedeemMap">
+        SELECT
+            rc.id,
+            rc.code,
+            rc.item_id,
+            rc.issued_channel,
+            rc.expire_at,
+            rc.status,
+            rc.used_by_user_id,
+            rc.used_at,
+            rc.created_at,
+            rc.updated_at,
+            i.name AS item_name
+        FROM yc_redeem_code rc
+        LEFT JOIN yc_collection_item i ON i.id = rc.item_id
+        WHERE rc.code = #{code}
+        FOR UPDATE
+    </select>
+
+    <select id="selectRedeemCodeById" resultMap="ycRedeemMap">
+        SELECT
+            rc.id,
+            rc.code,
+            rc.item_id,
+            rc.issued_channel,
+            rc.expire_at,
+            rc.status,
+            rc.used_by_user_id,
+            rc.used_at,
+            rc.created_at,
+            rc.updated_at,
+            i.name AS item_name,
+            COALESCE(u.display_name, u.username, CONCAT('用户', rc.used_by_user_id)) AS used_by_name
+        FROM yc_redeem_code rc
+        LEFT JOIN yc_collection_item i ON i.id = rc.item_id
+        LEFT JOIN yc_user_account u ON u.id = rc.used_by_user_id
+        WHERE rc.id = #{id}
+        LIMIT 1
+    </select>
+
+    <select id="selectRedeemCodeByItemId" resultMap="ycRedeemMap">
+        SELECT
+            rc.id,
+            rc.code,
+            rc.item_id,
+            rc.issued_channel,
+            rc.expire_at,
+            rc.status,
+            rc.used_by_user_id,
+            rc.used_at,
+            rc.created_at,
+            rc.updated_at,
+            i.name AS item_name,
+            COALESCE(u.display_name, u.username, CONCAT('用户', rc.used_by_user_id)) AS used_by_name
+        FROM yc_redeem_code rc
+        LEFT JOIN yc_collection_item i ON i.id = rc.item_id
+        LEFT JOIN yc_user_account u ON u.id = rc.used_by_user_id
+        WHERE rc.item_id = #{itemId}
+        ORDER BY rc.id DESC
+        LIMIT 1
+    </select>
+
+    <update id="updateRedeemCodeStatus">
+        UPDATE yc_redeem_code
+        SET status = #{status},
+            used_by_user_id = #{usedByUserId},
+            used_at = #{usedAt}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateRedeemCodeMeta">
+        UPDATE yc_redeem_code
+        SET code = #{code},
+            issued_channel = #{issuedChannel},
+            expire_at = #{expireAt},
+            status = #{status},
+            used_by_user_id = NULL,
+            used_at = NULL
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insertCollectionItem" parameterType="com.example.entity.YcCollectionItem" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO yc_collection_item
+        (item_code, series_id, name, rarity_level, cover_url, model_url, model_format, description, is_on_shelf, status, created_by, updated_by)
+        VALUES
+        (#{itemCode}, #{seriesId}, #{name}, #{rarityLevel}, #{coverUrl}, #{modelUrl}, #{modelFormat}, #{description}, #{isOnShelf}, #{status}, #{createdBy}, #{updatedBy})
+    </insert>
+
+    <update id="updateCollectionItem" parameterType="com.example.entity.YcCollectionItem">
+        UPDATE yc_collection_item
+        SET
+            series_id = #{seriesId},
+            name = #{name},
+            rarity_level = #{rarityLevel},
+            cover_url = #{coverUrl},
+            model_url = #{modelUrl},
+            model_format = #{modelFormat},
+            description = #{description},
+            status = #{status},
+            updated_by = #{updatedBy}
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+    </update>
+
+    <update id="softDeleteCollectionItem">
+        UPDATE yc_collection_item
+        SET
+            status = 0,
+            is_on_shelf = 0,
+            updated_by = #{updatedBy},
+            deleted_at = NOW()
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+    </update>
+
+    <select id="countCollectionsByItemId" resultType="int">
+        SELECT COUNT(1)
+        FROM yc_user_collection
+        WHERE item_id = #{itemId}
+    </select>
+
+    <update id="updateItemShelf">
+        UPDATE yc_collection_item
+        SET
+            is_on_shelf = #{isOnShelf},
+            updated_by = #{updatedBy}
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+    </update>
+
+    <insert id="insertShelfLog">
+        INSERT INTO yc_collection_shelf_log (item_id, action, operator_user_id, remark)
+        VALUES (#{itemId}, #{action}, #{operatorUserId}, #{remark})
+    </insert>
+
+    <select id="adminListItems" resultMap="ycItemMap">
+        SELECT
+            i.id,
+            i.item_code,
+            i.series_id,
+            i.name,
+            i.rarity_level,
+            i.cover_url,
+            i.model_url,
+            i.model_format,
+            i.description,
+            i.is_on_shelf,
+            i.status,
+            i.created_by,
+            i.updated_by,
+            i.created_at,
+            i.updated_at,
+            i.deleted_at,
+            s.name AS series_name,
+            s.series_code AS series_code
+        FROM yc_collection_item i
+        LEFT JOIN yc_collection_series s ON s.id = i.series_id
+        WHERE i.deleted_at IS NULL
+        <if test="seriesId != null">
+            AND i.series_id = #{seriesId}
+        </if>
+        <if test="status != null">
+            AND i.status = #{status}
+        </if>
+        <if test="isOnShelf != null">
+            AND i.is_on_shelf = #{isOnShelf}
+        </if>
+        ORDER BY i.updated_at DESC, i.id DESC
+    </select>
+
+    <insert id="insertRedeemCode">
+        INSERT INTO yc_redeem_code (code, item_id, issued_channel, expire_at, status)
+        VALUES (#{code}, #{itemId}, #{issuedChannel}, #{expireAt}, 1)
+    </insert>
+
+    <select id="adminListRedeemCodes" resultMap="ycRedeemMap">
+        SELECT
+            rc.id,
+            rc.code,
+            rc.item_id,
+            rc.issued_channel,
+            rc.expire_at,
+            rc.status,
+            rc.used_by_user_id,
+            rc.used_at,
+            rc.created_at,
+            rc.updated_at,
+            i.name AS item_name,
+            COALESCE(u.display_name, u.username, CONCAT('用户', rc.used_by_user_id)) AS used_by_name
+        FROM yc_redeem_code rc
+        LEFT JOIN yc_collection_item i ON i.id = rc.item_id
+        LEFT JOIN yc_user_account u ON u.id = rc.used_by_user_id
+        WHERE 1 = 1
+        <if test="status != null">
+            AND rc.status = #{status}
+        </if>
+        <if test="itemId != null">
+            AND rc.item_id = #{itemId}
+        </if>
+        ORDER BY rc.created_at DESC, rc.id DESC
+    </select>
+
+    <select id="selectLatestCommunityPosts" resultMap="ycCommunityPostMap">
+        SELECT
+            p.id,
+            p.user_id,
+            p.ai_work_id,
+            COALESCE(u.display_name, u.username, CONCAT('用户', p.user_id)) AS author_name,
+            p.title,
+            p.content_html,
+            p.summary,
+            p.category,
+            p.tags,
+            p.cover_image,
+            p.status,
+            p.like_count,
+            p.comment_count,
+            p.created_at,
+            p.updated_at
+        FROM yc_community_post p
+        LEFT JOIN yc_user_account u ON u.id = p.user_id
+        WHERE p.status = 1
+        ORDER BY p.created_at DESC, p.id DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="countCommunityPosts" resultType="int">
+        SELECT COUNT(1)
+        FROM yc_community_post p
+        WHERE p.status = 1
+        <if test="keyword != null and keyword != ''">
+            AND (
+                p.title LIKE CONCAT('%', #{keyword}, '%')
+                OR p.summary LIKE CONCAT('%', #{keyword}, '%')
+                OR p.content_html LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+        <if test="category != null and category != ''">
+            AND p.category = #{category}
+        </if>
+        <if test="tag != null and tag != ''">
+            AND p.tags LIKE CONCAT('%', #{tag}, '%')
+        </if>
+    </select>
+
+    <select id="selectCommunityPosts" resultMap="ycCommunityPostMap">
+        SELECT
+            p.id,
+            p.user_id,
+            p.ai_work_id,
+            COALESCE(u.display_name, u.username, CONCAT('用户', p.user_id)) AS author_name,
+            p.title,
+            p.content_html,
+            p.summary,
+            p.category,
+            p.tags,
+            p.cover_image,
+            p.status,
+            p.like_count,
+            p.comment_count,
+            p.created_at,
+            p.updated_at
+        FROM yc_community_post p
+        LEFT JOIN yc_user_account u ON u.id = p.user_id
+        WHERE p.status = 1
+        <if test="keyword != null and keyword != ''">
+            AND (
+                p.title LIKE CONCAT('%', #{keyword}, '%')
+                OR p.summary LIKE CONCAT('%', #{keyword}, '%')
+                OR p.content_html LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+        <if test="category != null and category != ''">
+            AND p.category = #{category}
+        </if>
+        <if test="tag != null and tag != ''">
+            AND p.tags LIKE CONCAT('%', #{tag}, '%')
+        </if>
+        ORDER BY p.created_at DESC, p.id DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectUserCommunityPosts" resultMap="ycCommunityPostMap">
+        SELECT
+            p.id,
+            p.user_id,
+            p.ai_work_id,
+            COALESCE(u.display_name, u.username, CONCAT('用户', p.user_id)) AS author_name,
+            p.title,
+            p.content_html,
+            p.summary,
+            p.category,
+            p.tags,
+            p.cover_image,
+            p.status,
+            p.like_count,
+            p.comment_count,
+            p.created_at,
+            p.updated_at
+        FROM yc_community_post p
+        LEFT JOIN yc_user_account u ON u.id = p.user_id
+        WHERE p.status = 1
+          AND p.user_id = #{userId}
+        ORDER BY p.created_at DESC, p.id DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="selectCommunityPostById" resultMap="ycCommunityPostMap">
+        SELECT
+            p.id,
+            p.user_id,
+            p.ai_work_id,
+            COALESCE(u.display_name, u.username, CONCAT('用户', p.user_id)) AS author_name,
+            p.title,
+            p.content_html,
+            p.summary,
+            p.category,
+            p.tags,
+            p.cover_image,
+            p.status,
+            p.like_count,
+            p.comment_count,
+            p.created_at,
+            p.updated_at
+        FROM yc_community_post p
+        LEFT JOIN yc_user_account u ON u.id = p.user_id
+        WHERE p.id = #{id}
+          AND p.status = 1
+        LIMIT 1
+    </select>
+
+    <insert id="insertCommunityPost" parameterType="com.example.entity.YcCommunityPost" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO yc_community_post
+        (user_id, ai_work_id, title, content_html, summary, category, tags, cover_image, status, like_count, comment_count)
+        VALUES
+        (#{userId}, #{aiWorkId}, #{title}, #{contentHtml}, #{summary}, #{category}, #{tags}, #{coverImage}, #{status}, #{likeCount}, #{commentCount})
+    </insert>
+
+    <update id="updateCommunityPost" parameterType="com.example.entity.YcCommunityPost">
+        UPDATE yc_community_post
+        SET
+            ai_work_id = #{aiWorkId},
+            title = #{title},
+            content_html = #{contentHtml},
+            summary = #{summary},
+            category = #{category},
+            tags = #{tags},
+            cover_image = #{coverImage},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND status = 1
+    </update>
+
+    <update id="softDeleteCommunityPost">
+        UPDATE yc_community_post
+        SET status = 0,
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND status = 1
+    </update>
+
+    <insert id="insertCommunityPostImage">
+        INSERT INTO yc_community_post_image (post_id, image_url, sort_no)
+        VALUES (#{postId}, #{imageUrl}, #{sortNo})
+    </insert>
+
+    <delete id="deleteCommunityPostImages">
+        DELETE FROM yc_community_post_image
+        WHERE post_id = #{postId}
+    </delete>
+
+    <select id="selectCommunityPostImages" resultType="string">
+        SELECT image_url
+        FROM yc_community_post_image
+        WHERE post_id = #{postId}
+        ORDER BY sort_no ASC, id ASC
+    </select>
+
+    <insert id="insertAiModelWork" parameterType="com.example.entity.YcAiModelWork" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO yc_ai_model_work
+        (user_id, task_id, work_code, title, prompt, style, vessel, cover_url, model_url, model_format, oss_url,
+         generation_status, storage_status, generated_at, expires_at, persist_started_at, persisted_at,
+         generation_points_cost, persist_points_cost, generation_charge_status, persist_charge_status,
+         model_size_bytes, last_error, status)
+        VALUES
+        (#{userId}, #{taskId}, #{workCode}, #{title}, #{prompt}, #{style}, #{vessel}, #{coverUrl}, #{modelUrl}, #{modelFormat}, #{ossUrl},
+         #{generationStatus}, #{storageStatus}, #{generatedAt}, #{expiresAt}, #{persistStartedAt}, #{persistedAt},
+         #{generationPointsCost}, #{persistPointsCost}, #{generationChargeStatus}, #{persistChargeStatus},
+         #{modelSizeBytes}, #{lastError}, #{status})
+    </insert>
+
+    <sql id="ycAiModelWorkColumns">
+        w.id, w.user_id, w.task_id, w.work_code, w.title, w.prompt, w.style, w.vessel,
+        w.cover_url, w.model_url, w.model_format, w.oss_url,
+        w.generation_status, w.storage_status, w.generated_at, w.expires_at,
+        w.persist_started_at, w.persisted_at, w.generation_points_cost, w.persist_points_cost,
+        w.generation_charge_status, w.persist_charge_status, w.model_size_bytes, w.last_error,
+        w.status, w.created_at, w.updated_at,
+        COALESCE(u.display_name, u.username, CONCAT('用户', w.user_id)) AS author_name
+    </sql>
+
+    <select id="selectAiModelWorkByTaskId" resultMap="ycAiModelWorkMap">
+        SELECT
+            <include refid="ycAiModelWorkColumns"/>
+        FROM yc_ai_model_work w
+        LEFT JOIN yc_user_account u ON u.id = w.user_id
+        WHERE w.task_id = #{taskId}
+          AND w.user_id = #{userId}
+          AND w.status = 1
+        LIMIT 1
+    </select>
+
+    <select id="selectUserAiModelWorks" resultMap="ycAiModelWorkMap">
+        SELECT
+            <include refid="ycAiModelWorkColumns"/>
+        FROM yc_ai_model_work w
+        LEFT JOIN yc_user_account u ON u.id = w.user_id
+        WHERE w.user_id = #{userId}
+          AND w.status = 1
+          <if test="scope == 'temporary'">
+              AND w.generation_status = 'READY'
+              AND w.storage_status IN ('TEMPORARY', 'PERSIST_FAILED')
+              AND w.expires_at > NOW()
+          </if>
+          <if test="scope == 'permanent'">
+              AND w.storage_status = 'PERMANENT'
+              AND w.oss_url IS NOT NULL
+              AND w.oss_url &lt;&gt; ''
+          </if>
+        ORDER BY w.id DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="selectAiModelWorkById" resultMap="ycAiModelWorkMap">
+        SELECT
+            <include refid="ycAiModelWorkColumns"/>
+        FROM yc_ai_model_work w
+        LEFT JOIN yc_user_account u ON u.id = w.user_id
+        WHERE w.id = #{id}
+          AND w.status = 1
+          AND w.user_id = #{userId}
+        LIMIT 1
+    </select>
+
+    <select id="selectPermanentAiModelWorkById" resultMap="ycAiModelWorkMap">
+        SELECT
+            <include refid="ycAiModelWorkColumns"/>
+        FROM yc_ai_model_work w
+        LEFT JOIN yc_user_account u ON u.id = w.user_id
+        WHERE w.id = #{id}
+          AND w.status = 1
+          AND w.storage_status = 'PERMANENT'
+          AND w.oss_url IS NOT NULL
+          AND w.oss_url &lt;&gt; ''
+        LIMIT 1
+    </select>
+
+    <select id="selectLatestAiModelWork" resultMap="ycAiModelWorkMap">
+        SELECT
+            <include refid="ycAiModelWorkColumns"/>
+        FROM yc_ai_model_work w
+        LEFT JOIN yc_user_account u ON u.id = w.user_id
+        WHERE w.user_id = #{userId}
+          AND w.status = 1
+        ORDER BY w.id DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectActiveAiModelTask" resultMap="ycAiModelWorkMap">
+        SELECT <include refid="ycAiModelWorkColumns"/>
+        FROM yc_ai_model_work w
+        LEFT JOIN yc_user_account u ON u.id = w.user_id
+        WHERE w.user_id = #{userId}
+          AND w.status = 1
+          AND w.generation_status IN ('SUBMITTED', 'RUNNING')
+        ORDER BY w.id DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectLatestAiModelPreview" resultMap="ycAiModelWorkMap">
+        SELECT <include refid="ycAiModelWorkColumns"/>
+        FROM yc_ai_model_work w
+        LEFT JOIN yc_user_account u ON u.id = w.user_id
+        WHERE w.user_id = #{userId}
+          AND w.status = 1
+          AND w.generation_status = 'READY'
+          AND w.model_url IS NOT NULL
+          AND w.model_url &lt;&gt; ''
+          AND (
+              w.storage_status = 'PERMANENT'
+              OR (
+                  w.storage_status IN ('TEMPORARY', 'PERSIST_FAILED')
+                  AND w.expires_at > NOW()
+              )
+          )
+        ORDER BY w.generated_at DESC, w.id DESC
+        LIMIT 1
+    </select>
+
+    <update id="updateAiModelGenerationRunning">
+        UPDATE yc_ai_model_work
+        SET generation_status = 'RUNNING', updated_at = NOW()
+        WHERE id = #{id}
+          AND user_id = #{userId}
+          AND generation_status IN ('SUBMITTED', 'RUNNING')
+    </update>
+
+    <update id="completeAiModelGeneration">
+        UPDATE yc_ai_model_work
+        SET generation_status = 'READY', storage_status = 'TEMPORARY',
+            model_url = #{modelUrl}, cover_url = #{coverUrl}, model_format = #{modelFormat},
+            generated_at = #{generatedAt}, expires_at = #{expiresAt}, last_error = NULL, updated_at = NOW()
+        WHERE id = #{id}
+          AND user_id = #{userId}
+          AND generation_status IN ('SUBMITTED', 'RUNNING')
+    </update>
+
+    <update id="failAiModelGeneration">
+        UPDATE yc_ai_model_work
+        SET generation_status = 'FAILED', last_error = #{lastError},
+            generation_charge_status = #{chargeStatus}, updated_at = NOW()
+        WHERE id = #{id}
+          AND user_id = #{userId}
+          AND generation_status IN ('SUBMITTED', 'RUNNING')
+    </update>
+
+    <update id="startAiModelPersist">
+        UPDATE yc_ai_model_work
+        SET storage_status = 'PERSISTING', persist_started_at = NOW(),
+            persist_charge_status = #{chargeStatus}, last_error = NULL, updated_at = NOW()
+        WHERE id = #{id}
+          AND user_id = #{userId}
+          AND storage_status IN ('TEMPORARY', 'PERSIST_FAILED')
+          AND persist_charge_status IN ('NONE', 'REFUNDED', 'FREE')
+          AND expires_at > DATE_ADD(NOW(), INTERVAL 10 MINUTE)
+    </update>
+
+    <update id="completeAiModelPersist">
+        UPDATE yc_ai_model_work
+        SET storage_status = 'PERMANENT', model_url = #{ossUrl}, oss_url = #{ossUrl}, cover_url = #{coverUrl}, persisted_at = NOW(),
+            model_size_bytes = #{modelSizeBytes}, last_error = NULL, updated_at = NOW()
+        WHERE id = #{id}
+          AND user_id = #{userId}
+          AND storage_status = 'PERSISTING'
+    </update>
+
+    <update id="failAiModelPersist">
+        UPDATE yc_ai_model_work
+        SET storage_status = 'PERSIST_FAILED', persist_charge_status = #{chargeStatus},
+            last_error = #{lastError}, updated_at = NOW()
+        WHERE id = #{id}
+          AND user_id = #{userId}
+          AND storage_status = 'PERSISTING'
+    </update>
+
+    <select id="selectStaleAiModelPersists" resultMap="ycAiModelWorkMap">
+        SELECT <include refid="ycAiModelWorkColumns"/>
+        FROM yc_ai_model_work w
+        LEFT JOIN yc_user_account u ON u.id = w.user_id
+        WHERE w.status = 1
+          AND w.storage_status = 'PERSISTING'
+          AND w.persist_started_at IS NOT NULL
+          AND w.persist_started_at &lt;= #{cutoff}
+        ORDER BY w.persist_started_at ASC, w.id ASC
+        LIMIT #{limit}
+    </select>
+
+    <update id="failStaleAiModelPersist">
+        UPDATE yc_ai_model_work
+        SET storage_status = 'PERSIST_FAILED',
+            persist_charge_status = #{chargeStatus},
+            last_error = #{lastError},
+            updated_at = NOW()
+        WHERE id = #{id}
+          AND user_id = #{userId}
+          AND storage_status = 'PERSISTING'
+          AND persist_started_at IS NOT NULL
+          AND persist_started_at &lt;= #{cutoff}
+    </update>
+
+    <delete id="deleteExpiredTemporaryAiModelWorks">
+        DELETE FROM yc_ai_model_work
+        WHERE status = 1
+          AND generation_status = 'READY'
+          AND storage_status IN ('TEMPORARY', 'PERSIST_FAILED')
+          AND expires_at IS NOT NULL
+          AND expires_at &lt;= NOW()
+    </delete>
+
+    <select id="selectEnabledKilnHotspots" resultMap="ycKilnHotspotConfigMap">
+        SELECT
+            id,
+            hotspot_code,
+            name,
+            short_label,
+            position,
+            normal,
+            focus_orbit,
+            focus_target,
+            summary,
+            points_json,
+            temperature_curve_json,
+            sort_no,
+            status,
+            created_at,
+            updated_at
+        FROM yc_kiln_hotspot_config
+        WHERE status = 1
+        ORDER BY sort_no ASC, id ASC
+    </select>
+
+    <select id="selectEnabledKilnTimelineSteps" resultMap="ycKilnTimelineStepConfigMap">
+        SELECT
+            id,
+            step_code,
+            title,
+            summary,
+            temperature,
+            hotspot_code,
+            view_key,
+            narration,
+            duration_ms,
+            sort_no,
+            status,
+            created_at,
+            updated_at
+        FROM yc_kiln_timeline_step_config
+        WHERE status = 1
+        ORDER BY sort_no ASC, id ASC
+    </select>
+
+    <delete id="deleteAllKilnHotspots">
+        DELETE FROM yc_kiln_hotspot_config
+    </delete>
+
+    <delete id="deleteAllKilnTimelineSteps">
+        DELETE FROM yc_kiln_timeline_step_config
+    </delete>
+
+    <insert id="insertKilnHotspot" parameterType="com.example.entity.YcKilnHotspotConfig">
+        INSERT INTO yc_kiln_hotspot_config
+        (hotspot_code, name, short_label, position, normal, focus_orbit, focus_target, summary, points_json, temperature_curve_json, sort_no, status)
+        VALUES
+        (#{hotspotCode}, #{name}, #{shortLabel}, #{position}, #{normal}, #{focusOrbit}, #{focusTarget}, #{summary}, #{pointsJson}, #{temperatureCurveJson}, #{sortNo}, #{status})
+    </insert>
+
+    <insert id="insertKilnTimelineStep" parameterType="com.example.entity.YcKilnTimelineStepConfig">
+        INSERT INTO yc_kiln_timeline_step_config
+        (step_code, title, summary, temperature, hotspot_code, view_key, narration, duration_ms, sort_no, status)
+        VALUES
+        (#{stepCode}, #{title}, #{summary}, #{temperature}, #{hotspotCode}, #{viewKey}, #{narration}, #{durationMs}, #{sortNo}, #{status})
+    </insert>
+
+</mapper>

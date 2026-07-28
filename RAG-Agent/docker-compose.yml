@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  rag-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag-service
+    restart: always
+    ports:
+      - "127.0.0.1:17690:17690"
+    volumes:
+      - ./logs:/app/logs
+      - ./docs:/app/docs
+      - ./vector_db:/app/vector_db
+      - ./models:/app/models
+    env_file:
+      - ../.env
+    environment:
+      HOST: 0.0.0.0
+      PORT: 17690
+      API_URL: ${NVIDIA_API_URL:-https://integrate.api.nvidia.com/v1}
+      LLM_API_URL: ${DEEPSEEK_API_URL:-https://api.deepseek.com}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-nvidia/nv-embed-v1}
+      VECTOR_DIM: ${VECTOR_DIM:-4096}
+      ENABLE_RERANK: ${ENABLE_RERANK:-false}
+      LLM_MODEL: ${LLM_MODEL:-deepseek-chat}

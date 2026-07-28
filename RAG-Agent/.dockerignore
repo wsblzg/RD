@@ -1,0 +1,45 @@
+# Git相关
+.git
+.gitignore
+
+# Docker相关
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Python相关
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 日志和数据文件（这些将通过卷挂载）
+logs/*
+vector_db/*
+models/*
+docs/*
+
+# IDE和编辑器相关文件
+.idea/
+.vscode/
+*.swp
+*.swo
+*~ 

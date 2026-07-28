@@ -1,0 +1,238 @@
+/* 全局样式 */
+
+:root {
+  --ym-font-ui: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
+  --ym-font-sans: var(--ym-font-ui);
+  --ym-font-display: 'Ma Shan Zheng', 'Noto Serif SC', serif;
+  --ym-font-calligraphy-cao: 'Liu Jian Mao Cao', cursive;
+  --ym-font-calligraphy-xing: 'Zhi Mang Xing', cursive;
+  --ym-font-calligraphy-ma: 'Ma Shan Zheng', cursive;
+  --ym-font-seal: 'ZCOOL KuaiLe', cursive;
+  --ym-font-serif: 'Noto Serif SC', serif;
+
+  --ym-ink-jiao: #201915;
+  --ym-ink-nong: #3a2f28;
+  --ym-ink-zhong: #6c5a4d;
+  --ym-ink-dan: #9a8778;
+  --ym-ink-qing: #c6b7aa;
+
+  --ym-bg: #f5efe6;
+  --ym-bg-soft: #efe6d8;
+  --ym-surface: #fff9f0;
+  --ym-surface-soft: rgba(255, 249, 240, 0.84);
+
+  --ym-text: var(--ym-ink-jiao);
+  --ym-text-secondary: var(--ym-ink-nong);
+  --ym-text-muted: var(--ym-ink-zhong);
+
+  --ym-border: rgba(58, 47, 40, 0.18);
+  --ym-border-strong: rgba(58, 47, 40, 0.30);
+
+  --ym-accent: #a14b34;
+  --ym-accent-rgb: 161, 75, 52;
+  --ym-accent-soft: rgba(161, 75, 52, 0.14);
+
+  --ym-support: #6b7f6a;
+  --ym-support-rgb: 107, 127, 106;
+  --ym-gold: #b08a49;
+  --ym-gold-rgb: 176, 138, 73;
+
+  --ym-success: #5f7660;
+  --ym-success-bg: rgba(95, 118, 96, 0.13);
+  --ym-danger: #8e4332;
+  --ym-danger-bg: rgba(142, 67, 50, 0.11);
+
+  --ym-focus: rgba(161, 75, 52, 0.45);
+}
+
+/* 重置样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--ym-font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ym-text);
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--ym-bg);
+  background-image:
+    radial-gradient(circle at 12% 10%, rgba(32, 25, 21, 0.05), transparent 28%),
+    radial-gradient(circle at 83% 16%, rgba(176, 138, 73, 0.05), transparent 30%),
+    radial-gradient(circle at 26% 82%, rgba(161, 75, 52, 0.03), transparent 34%),
+    repeating-linear-gradient(
+      20deg,
+      rgba(0, 0, 0, 0.015) 0px,
+      rgba(0, 0, 0, 0.015) 1px,
+      transparent 1px,
+      transparent 9px
+    );
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.28;
+  background:
+    radial-gradient(circle at 18% 68%, rgba(0, 0, 0, 0.16), transparent 42%),
+    radial-gradient(circle at 86% 70%, rgba(0, 0, 0, 0.12), transparent 38%);
+  filter: blur(28px);
+}
+
+#app {
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* 输入框样式 */
+input, textarea, select {
+  padding: 10px 12px;
+  border: 1px solid var(--ym-border);
+  border-radius: 4px;
+  font-size: 16px;
+  background: var(--ym-surface);
+  color: var(--ym-text);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: rgba(var(--ym-accent-rgb), 0.5);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ym-focus) !important;
+  outline-offset: 2px;
+}
+
+button {
+  font: inherit;
+  font-family: var(--ym-font-ui);
+}
+
+a {
+  color: inherit;
+}
+
+/* 通用过渡效果 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ym-bg-soft);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 125, 107, 0.55);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 125, 107, 0.75);
+}
+
+/* 错误消息样式 */
+.error-message {
+  color: var(--ym-danger);
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.font-calligraphy-cao {
+  font-family: var(--ym-font-calligraphy-cao);
+}
+
+.font-calligraphy-ma {
+  font-family: var(--ym-font-calligraphy-ma);
+}
+
+.font-calligraphy-xing {
+  font-family: var(--ym-font-calligraphy-xing);
+}
+
+.font-seal {
+  font-family: var(--ym-font-seal);
+}
+
+.font-body-kai {
+  font-family: var(--ym-font-sans);
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.ink-bleed {
+  position: relative;
+}
+
+.ink-bleed::before {
+  content: '';
+  position: absolute;
+  inset: -18px;
+  pointer-events: none;
+  border-radius: 26% 34% 22% 38%;
+  background: radial-gradient(circle at 30% 30%, rgba(26, 26, 26, 0.2), transparent 65%);
+  filter: blur(16px);
+  opacity: 0.26;
+}
+
+.seal-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 6px;
+  border: 1px solid rgba(var(--ym-accent-rgb), 0.54);
+  background: rgba(var(--ym-accent-rgb), 0.14);
+  color: var(--ym-accent);
+  font-family: var(--ym-font-seal);
+  letter-spacing: 0.04em;
+}
+
+.ink-fade-in {
+  animation: inkFadeIn 0.8s ease both;
+}
+
+@keyframes inkFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}

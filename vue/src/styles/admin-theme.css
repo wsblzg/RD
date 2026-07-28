@@ -1,0 +1,246 @@
+/* 管理后台主题配色 - 与网站主题保持一致 */
+
+/* Element Plus 主题变量覆盖 */
+:root {
+  /* 主色调 - 网站橙红色 */
+  --el-color-primary: #FF6B35;
+  --el-color-primary-light-3: #ff8c42;
+  --el-color-primary-light-5: #ffa366;
+  --el-color-primary-light-7: #ffba8a;
+  --el-color-primary-light-8: #ffc9ae;
+  --el-color-primary-light-9: #ffd8d2;
+  --el-color-primary-dark-2: #e55a2b;
+  
+  /* 成功色 - 保持绿色 */
+  --el-color-success: #67c23a;
+  --el-color-success-light-3: #85ce61;
+  --el-color-success-light-5: #a4da89;
+  --el-color-success-light-7: #c2e7b0;
+  --el-color-success-light-8: #d1edc4;
+  --el-color-success-light-9: #e1f3d8;
+  --el-color-success-dark-2: #529b2e;
+  
+  /* 警告色 - 使用暖黄色 */
+  --el-color-warning: #f0b070;
+  --el-color-warning-light-3: #f9c089;
+  --el-color-warning-light-5: #fcd0a2;
+  --el-color-warning-light-7: #fde0bb;
+  --el-color-warning-light-8: #fee8d4;
+  --el-color-warning-light-9: #fef0ed;
+  --el-color-warning-dark-2: #d49a5f;
+  
+  /* 危险色 - 保持红色 */
+  --el-color-danger: #f56c6c;
+  --el-color-danger-light-3: #f78989;
+  --el-color-danger-light-5: #f9a7a7;
+  --el-color-danger-light-7: #fbc4c4;
+  --el-color-danger-light-8: #fcd3d3;
+  --el-color-danger-light-9: #fde2e2;
+  --el-color-danger-dark-2: #c45656;
+  
+  /* 信息色 - 使用网站蓝色 */
+  --el-color-info: #4a67e8;
+  --el-color-info-light-3: #6b7eeb;
+  --el-color-info-light-5: #8c95ee;
+  --el-color-info-light-7: #adacf1;
+  --el-color-info-light-8: #c6c5f4;
+  --el-color-info-light-9: #dfdef7;
+  --el-color-info-dark-2: #3c52ba;
+  
+  /* 文本颜色 */
+  --el-text-color-primary: #333333;
+  --el-text-color-regular: #666666;
+  --el-text-color-secondary: #999999;
+  --el-text-color-placeholder: #c0c4cc;
+  --el-text-color-disabled: #c0c4cc;
+  
+  /* 边框颜色 */
+  --el-border-color: #e4e7ed;
+  --el-border-color-light: #ebeef5;
+  --el-border-color-lighter: #f2f6fc;
+  --el-border-color-extra-light: #fafcff;
+  --el-border-color-dark: #d4d7de;
+  --el-border-color-darker: #cdd0d6;
+  
+  /* 填充颜色 */
+  --el-fill-color: #f0f2f5;
+  --el-fill-color-light: #f5f7fa;
+  --el-fill-color-lighter: #fafafa;
+  --el-fill-color-extra-light: #fafcff;
+  --el-fill-color-dark: #ebedf0;
+  --el-fill-color-darker: #e6e8eb;
+  --el-fill-color-blank: #ffffff;
+  
+  /* 背景颜色 */
+  --el-bg-color: #ffffff;
+  --el-bg-color-page: #f5f5f5;
+  --el-bg-color-overlay: #ffffff;
+  
+  /* 阴影 */
+  --el-box-shadow: 0 12px 32px 4px rgba(0, 0, 0, 0.04), 0 8px 20px rgba(0, 0, 0, 0.08);
+  --el-box-shadow-light: 0 0 12px rgba(0, 0, 0, 0.12);
+  --el-box-shadow-lighter: 0 0 6px rgba(0, 0, 0, 0.12);
+  --el-box-shadow-dark: 0 16px 48px 16px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.12), 0 8px 16px -8px rgba(0, 0, 0, 0.16);
+}
+
+/* 管理后台专用样式 */
+.admin-theme {
+  /* 页面背景 */
+  background-color: var(--el-bg-color-page);
+  min-height: 100vh;
+}
+
+/* 侧边栏样式 */
+.admin-sidebar {
+  background: #f9c088;
+  border-right: 1px solid var(--el-border-color-light);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06);
+}
+
+/* 头部样式 */
+.admin-header {
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  border-bottom: 1px solid var(--el-border-color-light);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* 卡片样式 */
+.admin-card {
+  background: #ffffff;
+  border: 1px solid var(--el-border-color-light);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.admin-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* 统计卡片 */
+.stat-card {
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  border: 1px solid var(--el-border-color-light);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--el-color-primary), var(--el-color-warning));
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* 表格样式 */
+.admin-table {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.admin-table .el-table__header {
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+}
+
+.admin-table .el-table__header th {
+  background: transparent;
+  color: var(--el-text-color-primary);
+  font-weight: 600;
+  border-bottom: 2px solid var(--el-border-color-light);
+}
+
+.admin-table .el-table__body tr:hover {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.02) 0%, rgba(240, 176, 112, 0.02) 100%);
+}
+
+/* 按钮组样式 */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.action-buttons .el-button {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.action-buttons .el-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 分页样式 */
+.admin-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.admin-pagination .el-pagination {
+  background: #ffffff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* 状态标签样式 */
+.status-tag {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  min-width: 60px;
+}
+
+.status-pending {
+  background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.status-approved {
+  background: linear-gradient(135deg, #d4edda, #a8e6cf);
+  color: #155724;
+  border: 1px solid #a8e6cf;
+}
+
+.status-rejected {
+  background: linear-gradient(135deg, #f8d7da, #ffb3ba);
+  color: #721c24;
+  border: 1px solid #ffb3ba;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .action-buttons {
+    gap: 4px;
+  }
+  
+  .action-buttons .el-button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  
+  .stat-card {
+    padding: 16px;
+  }
+}

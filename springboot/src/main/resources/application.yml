@@ -1,0 +1,128 @@
+server:
+  port: 8006
+  address: 0.0.0.0
+  tomcat:
+    max-http-form-post-size: 100MB
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+      file-size-threshold: 2KB
+      location: ${java.io.tmpdir}
+      
+  mvc:
+    async:
+      request-timeout: 120000  # 设置为120秒
+      
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+mybatis:
+  # 配置实体和xml映射
+  mapper-locations: classpath:mapper/*.xml
+
+  configuration:
+    # 配置日志
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    # 开启驼峰命名转换
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    org.mybatis: warn
+    org.mybatis.spring: warn
+
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 604800000
+  jwt:
+    header: Authorization
+    token-start-with: Bearer
+
+xiling:
+  app-id: ${XILING_APP_ID}
+  app-key: ${XILING_APP_KEY}
+
+aliyun:
+  oss:
+    endpoint: ${OSS_ENDPOINT:http://oss-cn-shenzhen.aliyuncs.com}
+    access-key-id: ${OSS_ACCESS_KEY_ID}
+    access-key-secret: ${OSS_ACCESS_KEY_SECRET}
+    bucket: ${OSS_BUCKET:wsnlzg}
+    url-prefix: ${OSS_URL_PREFIX:https://wsnlzg.oss-cn-shenzhen.aliyuncs.com/}
+
+# AI服务配置
+ai:
+  # AI服务提供商: xunfei(讯飞星火) 或 aliyun(阿里云通义千问)
+  provider: xunfei
+
+  # 讯飞星火配置
+  xunfei:
+    app-id: ${XUNFEI_APP_ID}
+    api-key: ${XUNFEI_API_KEY}
+    api-secret: ${XUNFEI_API_SECRET}
+    api-url: ${XUNFEI_API_URL:https://spark-api.xf-yun.com/v3.5/chat}
+    domain: ${XUNFEI_DOMAIN:generalv3.5}
+
+  # 通用配置
+  timeout: 30000
+
+  nvidia:
+    api-url: ${NVIDIA_API_URL:https://integrate.api.nvidia.com/v1}
+    api-key: ${NVIDIA_API_KEY}
+    vision-model: nvidia/nemotron-nano-12b-v2-vl
+    vision-timeout-ms: 60000
+
+  # DeepSeek V4 Flash：只需要填写 api-key
+  deepseek:
+    api-url: ${DEEPSEEK_API_URL:https://api.deepseek.com}
+    api-key: ${DEEPSEEK_API_KEY}
+    model: deepseek-v4-flash
+    timeout-ms: 60000
+
+  tencent:
+    ai3d:
+      secret-id: ${TENCENT_AI3D_SECRET_ID}
+      secret-key: ${TENCENT_AI3D_SECRET_KEY}
+      region: ${TENCENT_AI3D_REGION:ap-guangzhou}
+
+  rag:
+    enabled: true
+    base-url: http://127.0.0.1:17690
+    query-path: /query
+    timeout-ms: 180000
+    example: 请基于检索到的柴烧非遗资料回答。回答要通俗、准确，不能替代专家鉴定；如资料不足，请说明目前知识库中没有足够依据。
+
+  chat-queue:
+    capacity: 200
+    workers: 4
+    enqueue-timeout-ms: 300
+    response-timeout-ms: 180000
+    max-retries: 1
+    retry-backoff-ms: 200
+
+shop:
+  payment:
+    qr-url: /picket.webp
+  order:
+    pending-payment-expire-minutes: 30
+    expire-scan-ms: 600000
+    expire-scan-initial-delay-ms: 30000
+    
